@@ -1,0 +1,27 @@
+# Terraform generated files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Terraform variable files that may contain secrets
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Local application secrets
+.env
+.env.*
+!.env.example
+
+# Local Kubernetes access files
+kubeconfig
+*.kubeconfig
+
+# Temporary files
+*.log
+.DS_Store
+Thumbs.db
+*.swp

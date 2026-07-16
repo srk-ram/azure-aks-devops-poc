@@ -1,130 +1,101 @@
 # Azure AKS DevOps Deployment POC
 
-## Project Overview
+## Overview
 
-This project demonstrates how an application can be deployed to Azure Kubernetes Service using Terraform, Docker, Azure Container Registry, Kubernetes, GitHub Actions, Azure Key Vault, autoscaling, rollout safety, and Azure Monitor.
+This project demonstrates an end-to-end DevOps workflow for deploying a containerized application to Azure Kubernetes Service (AKS).
 
-The project follows a real DevOps workflow covering infrastructure provisioning, container image creation, automated deployment, application configuration, monitoring, troubleshooting, and documentation.
+The solution uses GitHub Actions for CI/CD automation, Docker for containerization, Azure Container Registry for image storage, Terraform for Azure infrastructure provisioning, Kubernetes for application deployment, and Azure Monitor for operational visibility.
 
-## Project Flow
+---
 
-Developer pushes code to GitHub  
-↓  
-GitHub Actions pipeline starts  
-↓  
-Docker image is built  
-↓  
-Image is pushed to Azure Container Registry  
-↓  
-Terraform provisions Azure infrastructure  
-↓  
-AKS runs the application  
-↓  
-Kubernetes Service exposes the application  
-↓  
-ConfigMap, Secret, and Key Vault handle configuration  
-↓  
-HPA handles autoscaling  
-↓  
-Rollout and rollback provide release safety  
-↓  
-Azure Monitor provides operational visibility  
-↓  
-GitHub repository provides project evidence
+## Architecture Flow
+
+```text
+Developer pushes code to GitHub
+↓
+GitHub Actions pipeline starts
+↓
+Docker image is built
+↓
+Image is pushed to Azure Container Registry
+↓
+Terraform provisions Azure infrastructure
+↓
+AKS runs the application
+↓
+Service exposes the application
+↓
+ConfigMap / Secret / Key Vault handle config
+↓
+HPA handles autoscaling
+↓
+Rollout / rollback gives release safety
+↓
+Azure Monitor gives operational visibility
+↓
+GitHub repo proves the work
+```
+
+---
+
+## Technology Stack
+
+| Area | Technology |
+|---|---|
+| Source control | Git and GitHub |
+| CI/CD | GitHub Actions |
+| Infrastructure as Code | Terraform |
+| Cloud platform | Microsoft Azure |
+| Containerization | Docker |
+| Container registry | Azure Container Registry |
+| Container orchestration | Azure Kubernetes Service |
+| Application deployment | Kubernetes manifests |
+| Configuration management | ConfigMap and Kubernetes Secret |
+| Secret management | Azure Key Vault |
+| Autoscaling | Horizontal Pod Autoscaler |
+| Monitoring | Azure Monitor |
+| Terraform state | Azure Blob Storage remote backend |
+
+---
+
+## Project Scope
+
+- Maintain application and infrastructure code in GitHub
+- Build the application as a Docker image
+- Push container images to Azure Container Registry
+- Provision Azure infrastructure using Terraform
+- Store Terraform state securely in Azure Blob Storage
+- Deploy the containerized application to Azure Kubernetes Service
+- Expose the application through a Kubernetes Service
+- Manage application configuration using ConfigMap
+- Manage sensitive configuration using Kubernetes Secret and Azure Key Vault
+- Configure application autoscaling using HPA
+- Perform safe rollout and rollback operations
+- Monitor the application and infrastructure using Azure Monitor
+- Automate the end-to-end workflow using GitHub Actions
+
+---
 
 ## Repository Structure
 
 ```text
 azure-aks-devops-poc/
-├── app/
-│   └── Application source code and Dockerfile
-│
-├── terraform/
-│   └── Azure infrastructure code
-│
-├── kubernetes/
-│   └── Kubernetes deployment configuration
-│
 ├── .github/
-│   └── workflows/
-│       └── GitHub Actions workflow files
-│
-├── docs/
-│   └── Architecture, deployment, operations, and troubleshooting documents
-│
-├── .gitignore
-│   └── Prevents sensitive and generated files from being tracked
-│
-└── README.md
-    └── Main project documentation
+│   └── workflows/       # GitHub Actions workflows
+├── app/                 # Application code and Dockerfile
+├── terraform/           # Azure infrastructure configuration
+├── kubernetes/          # Kubernetes manifests
+├── docs/                # Project documentation
+├── .gitignore           # Git exclusion rules
+└── README.md            # Project overview
 ```
 
-## Planned Azure Resources
-
-- Azure Resource Group
-- Azure Virtual Network and Subnet
-- Azure Container Registry
-- Azure Kubernetes Service
-- Azure Key Vault
-- Azure Monitor and Log Analytics
-
-## Technologies
-
-- Microsoft Azure
-- Azure Kubernetes Service
-- Azure Container Registry
-- Terraform
-- Docker
-- Kubernetes
-- GitHub Actions
-- Azure Key Vault
-- Horizontal Pod Autoscaler
-- Azure Monitor
-- Git
-
-## Project Capabilities
-
-The completed POC will demonstrate:
-
-- Infrastructure provisioning using Terraform
-- Docker image creation
-- Container image storage in Azure Container Registry
-- Application deployment to AKS
-- Kubernetes Service-based application access
-- Application configuration using ConfigMaps and Secrets
-- Secure secret handling using Azure Key Vault
-- Application autoscaling using HPA
-- Safe rollout and rollback
-- Application and infrastructure monitoring
-- CI/CD automation using GitHub Actions
-- Troubleshooting and operational documentation
-
-## Current Status
-
-The initial local Git repository and clean project folder structure have been created.
-
-Current completed structure:
-
-- `app/`
-- `terraform/`
-- `kubernetes/`
-- `.github/workflows/`
-- `docs/`
-- `.gitignore`
-- `README.md`
+---
 
 ## Security Notes
 
-Sensitive files, Terraform state files, local environment files, Kubernetes access files, and generated files must not be committed to GitHub.
-
-The `.gitignore` file is used to prevent these files from being tracked accidentally.
-
-## Documentation
-
-Detailed project documentation will be maintained under the `docs/` folder, including:
-
-- Architecture
-- Deployment guide
-- Operations runbook
-- Troubleshooting guide
-- Cost and security notes
+- Terraform state is stored in a private Azure Blob Storage backend.
+- Azure access uses Microsoft Entra identities and Azure RBAC.
+- Secrets, credentials, Terraform state files, and generated Terraform working files are excluded from Git.
+- Azure Key Vault is used for secure application secret management.
+- Terraform plans must be reviewed before infrastructure changes are applied.
